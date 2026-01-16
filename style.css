@@ -1,0 +1,64 @@
+
+/* Reset and base */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: 'Allerta', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-size: 16px;
+  color: #1f2937;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef7f9 100%);
+  -webkit-font-smoothing: antialiased;
+  padding: 24px;
+}
+
+/* Header */
+header { text-align: center; margin-bottom: 18px; }
+header h1 { margin: 8px 0 4px; font-size: 28px; color: #0f1724; }
+
+/* Layout: two-column responsive */
+.contianer, /* keep existing typo-safe selector */
+.container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.column { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 4px 14px rgba(15,23,42,0.06); }
+
+/* Form styles */
+form label { display: block; font-weight: 600; margin-bottom: 6px; color: #334155; }
+form input[type="text"], form input[type="number"], form input[type="search"] {
+  width: 100%; padding: 10px 12px; border: 1px solid #e6eef2; border-radius: 8px; margin-bottom: 12px;
+  background: #fbfeff;
+}
+form .button, form input[type="submit"] {
+  background: #0ea5a4; color: white; border: none; padding: 10px 14px; border-radius: 10px; cursor: pointer;
+}
+form .button:hover, form input[type="submit"]:hover { background: #059e9d; }
+
+/* Search bar */
+form.search { display: inline-flex; gap: 6px; align-items: center; }
+form.search input { width: 220px; }
+form.search button { background: transparent; border: none; cursor: pointer; padding: 6px; }
+
+/* Table styles */
+#table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+#table thead { background: linear-gradient(90deg,#0ea5a4,#06b6d4); color: white; }
+#table th, #table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #eef2f6; vertical-align: middle; }
+#table th { font-weight: 700; font-size: 14px; }
+#table tr:last-child td { border-bottom: none; }
+
+/* ID column narrower */
+#table th:first-child, #table td:first-child { width: 70px; color: #475569; font-weight: 600; }
+
+.col-quantity { width: 110px; text-align: right; }
+
+/* Small screens: stack columns */
+@media (max-width: 800px) {
+  .contianer, .container { grid-template-columns: 1fr; }
+  form.search input { width: 140px; }
+}
+
+/* Utility */
+.hidden { display: none !important; }
