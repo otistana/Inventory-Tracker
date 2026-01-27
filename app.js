@@ -11,14 +11,49 @@ let items = []; // list of inventory items (not used yet)
 // Add a single item to the HTML table
 function addItemToTable(item) {
     const row = table.insertRow(); // make a new row (like a shelf row)
+    const cells = [];
     // For each field name (id, name, sku, ...), make a cell and put the item's value there
     inventory.forEach((field) => {
         const cell = row.insertCell(); // make a new cell (a little box on the row)
         const text = document.createTextNode(item[field]); // get the text for this field from the item
         cell.appendChild(text); // put the text into the cell so it appears on the page
+        cells.push(cell);
     });
+    
+    // delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.onclick = function() {
+        row.remove();
+    };
+
+    // edit button
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.className = 'edit-btn';
+    editBtn.onclick = function() {
+        const quantityCell = cells[4]; // quantity is at index 4
+        if (editBtn.textContent === 'Edit') {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = item.quantity;
+            quantityCell.textContent = '';
+            quantityCell.appendChild(input);
+            editBtn.textContent = 'Save';
+        } else {
+            item.quantity = quantityCell.querySelector('input').value;
+            quantityCell.textContent = item.quantity;
+            editBtn.textContent = 'Edit';
+        }
+    };
+
+    const actionCell = row.insertCell();
+    actionCell.appendChild(editBtn);
+    actionCell.appendChild(deleteBtn);
 }
 
+// Render a list of inventory items into the HTML table
 function renderInventory(items) {
     // Show every item in the provided list by adding it to the table
     items.forEach((item) => {
