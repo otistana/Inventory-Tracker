@@ -5,7 +5,7 @@
 // fill a cell for every field listed in `inventory`.
 const inventory = ["id", "name", "sku", "location", "quantity"]; // column names (order matters)
 const table = document.getElementById("table"); // find the table element on the page
-let items = []; // list of inventory items (not used yet)
+let items = JSON.parse(localStorage.getItem("items")) || []; // list of inventory items (not used yet)
 
 
 // Add a single item to the HTML table
@@ -26,6 +26,10 @@ function addItemToTable(item) {
     deleteBtn.className = 'delete-btn';
     deleteBtn.onclick = function() {
         row.remove();
+        // remove items from array
+        items = items.filter(i => i.id !== item.id);
+        // save update array
+        localStorage.setItem("items", JSON.stringify(items) );
     };
 
     // edit button
@@ -45,6 +49,8 @@ function addItemToTable(item) {
             item.quantity = quantityCell.querySelector('input').value;
             quantityCell.textContent = item.quantity;
             editBtn.textContent = 'Edit';
+
+            localStorage.setItem("items", JSON.stringify(items) );
         }
     };
 
@@ -61,6 +67,9 @@ function renderInventory(items) {
     });     
 }
 
+// Load items from localStorage when the page loads
+renderInventory(items);
+
 // Wire the HTML form so submitted items are added to the table
 const form = document.getElementById('addItemForm');
 if (form) {
@@ -74,9 +83,12 @@ if (form) {
             location: f.elements['location'].value,
             quantity: f.elements['quantity'].value,
         };
+        items.push(item);
+        localStorage.setItem("items", JSON.stringify(items) );
         addItemToTable(item);
         f.reset();
     });
 } else {
     console.warn('Add-item form not found: #addItemForm');
 }
+
